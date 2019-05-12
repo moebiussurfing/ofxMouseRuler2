@@ -18,6 +18,8 @@ void ofxMouseRuler::draw(ofEventArgs &){
 
 	if(visible){
 
+        ofPushStyle();
+
 		ofPoint mPos(ofGetMouseX(), ofGetMouseY());
 
 		std::string info;
@@ -37,6 +39,7 @@ void ofxMouseRuler::draw(ofEventArgs &){
 		ofSetColor(0);
 		ofDrawBitmapString(info, mPos.x +12, mPos.y + 30);
 
+        ofPopStyle();
 	}
 
 }
