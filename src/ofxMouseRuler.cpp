@@ -5,6 +5,15 @@ ofxMouseRuler::ofxMouseRuler() {
 	setupDone = false;
 	visible = false;
 
+	orig_x = 0;//coordinate axis
+	orig_y = 0;
+    pad_x = + 20,//text info
+    pad_y = + 8;
+}
+
+void ofxMouseRuler::setOrig(int x, int y){
+	orig_x = x;
+	orig_y = y;
 }
 
 void ofxMouseRuler::setup(){
@@ -20,7 +29,17 @@ void ofxMouseRuler::draw(ofEventArgs &){
 
         ofPushStyle();
 
-		ofPoint mPos(ofGetMouseX(), ofGetMouseY());
+//		ofPoint mPos(ofGetMouseX(), ofGetMouseY());
+		ofPoint mPos(ofGetMouseX() - orig_x, ofGetMouseY() - orig_y);
+
+        //draw awis
+        if (bShowAvis)
+        {
+            ofSetColor(ofColor(ofColor::white), 64);
+            ofSetLineWidth(1);
+            ofDrawLine(0, ofGetMouseY(), ofGetWidth(), ofGetMouseY());
+            ofDrawLine(ofGetMouseX(), 0, ofGetMouseX(), ofGetHeight());
+        }
 
 		std::string info;
 		if(!dragging){
@@ -28,16 +47,21 @@ void ofxMouseRuler::draw(ofEventArgs &){
 		}else{
 			ofSetColor(255,0,0);
 			ofSetLineWidth(1);
-			ofDrawLine(mPos, dragStart);
-			info = ofToString((mPos-dragStart).length());
+
+//            ofDrawLine(mPos, dragStart);
+            ofDrawLine(mPos + ofPoint(orig_x, orig_y), dragStart + ofPoint(orig_x, orig_y));
+
+            info = ofToString((mPos-dragStart).length());
 		}
 
 		ofSetColor(255);
 		ofFill();
-		ofDrawRectangle(font.getBoundingBox(info, mPos.x +12, mPos.y + 30));
+//		ofDrawRectangle(font.getBoundingBox(info, mPos.x +12, mPos.y + 30));
+		ofDrawRectangle(font.getBoundingBox(info, mPos.x + pad_x, mPos.y + pad_y));
 
 		ofSetColor(0);
-		ofDrawBitmapString(info, mPos.x +12, mPos.y + 30);
+//        ofDrawBitmapString(info, mPos.x +12, mPos.y + 30);
+        ofDrawBitmapString(info, mPos.x + pad_x, mPos.y + pad_y);
 
         ofPopStyle();
 	}
@@ -65,7 +89,9 @@ ofxMouseRuler::~ofxMouseRuler(){
 
 
 bool ofxMouseRuler::mousePressed(ofMouseEventArgs &args) {
-	dragStart = ofPoint(args.x,args.y);
+//	dragStart = ofPoint(args.x,args.y);
+	dragStart = ofPoint(args.x - orig_x, args.y - orig_y);
+
 	dragging = true;
 	return false;
 }

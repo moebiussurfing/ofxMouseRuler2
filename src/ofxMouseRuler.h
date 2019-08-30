@@ -22,6 +22,13 @@ public:
 	void mouseEntered(ofMouseEventArgs&){}
 	void mouseExited(ofMouseEventArgs&){}
 
+	void setOrig(int x, int y);
+
+    void setAxisVisible(bool b)
+    {
+        bShowAvis = b;
+    }
+
 private:
 
 	bool setupDone;
@@ -29,6 +36,11 @@ private:
 	ofPoint dragStart;
 	bool dragging;
 	ofBitmapFont font;
+
+	int orig_x, orig_y;
+	int pad_x, pad_y;
+
+    bool bShowAvis = true;
 
 };
 
