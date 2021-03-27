@@ -48,6 +48,8 @@ void ofxMouseRuler::draw(ofEventArgs &) {
 		}
 		if (dragging) {//distance line
 			info += "\n";
+
+			//blink
 			int _fn = ofGetFrameNum();
 			int _sp = 10;
 			bool _b = (_fn % _sp) > _sp / 2;
@@ -55,7 +57,7 @@ void ofxMouseRuler::draw(ofEventArgs &) {
 			else ofSetColor(255, 0, 0, 128);
 			ofSetLineWidth(1);
 
-			//            ofDrawLine(mPos, dragStart);
+			//ofDrawLine(mPos, dragStart);
 			ofDrawLine(mPos + ofPoint(orig_x, orig_y), dragStart + ofPoint(orig_x, orig_y));
 
 			info += ofToString((mPos - dragStart).length());
